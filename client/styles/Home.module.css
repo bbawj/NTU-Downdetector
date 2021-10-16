@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  width: 100%;
+  height: 30%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../public/hero.svg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: 1em;
+}
+
+.header > h3 {
+  color: var(--bg);
+}
+
+.header_text {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.header_text > h1 {
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.searchbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.searchbox > input {
+  outline: none;
+  border: 0;
+  color: white;
+  background-color: var(--bg);
+  font-size: 1rem;
+  padding: 1em;
+  border-radius: 5px;
+}
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em;
+  cursor: pointer;
+}

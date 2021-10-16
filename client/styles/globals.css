@@ -3,6 +3,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Roboto", sans-serif;
+  --bg: #121212;
+  --accent: #fa5145;
 }
 
 a {
