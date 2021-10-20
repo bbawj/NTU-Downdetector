@@ -3,8 +3,9 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Roboto", sans-serif;
-  --bg: #121212;
+  --bg: white;
   --accent: #fa5145;
+  --text1: #121212;
 }
 
 a {
@@ -14,4 +15,27 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+nav {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.logo > h3 > span {
+  color: var(--accent);
+}
+
+nav > .links {
+  display: flex;
+  margin-left: auto;
+}
+
+nav a {
+  padding: 0 1em;
+}
+
+.links a:hover {
+  color: var(--accent);
 }

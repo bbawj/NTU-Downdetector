@@ -13,18 +13,16 @@
 }
 
 .header > h3 {
-  color: var(--bg);
+  color: var(--text1);
 }
 
 .header_text {
-  font-size: 2rem;
-  font-weight: 500;
+  font-size: 2.5rem;
+  margin-bottom: 2em;
 }
 
-.header_text > h1 {
+.header_text > span {
   display: inline-block;
-  font-size: 2rem;
-  font-weight: 500;
   color: var(--accent);
 }
 
@@ -32,11 +30,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 2em;
 }
 .searchbox > input {
   outline: none;
   border: 0;
-  color: white;
+  color: var(--text1);
   background-color: var(--bg);
   font-size: 1rem;
   padding: 1em;

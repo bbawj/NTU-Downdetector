@@ -15,7 +15,7 @@ export default function Home() {
       </Head>
       <div className={styles.header}>
         <h1 className={styles.header_text}>
-          NTU <h1>Down</h1>detector
+          NTU <span>Down</span>detector
         </h1>
         <h3>Realtime user reports of NTU services</h3>
         <div className={styles.searchbox}>
