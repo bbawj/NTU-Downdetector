@@ -13,6 +13,7 @@ export default function Home() {
           content="Nanyang Technological University, NTU, downdetector"
         />
       </Head>
+      
       <div className={styles.header}>
         <h1 className={styles.header_text}>
           NTU <span>Down</span>detector
