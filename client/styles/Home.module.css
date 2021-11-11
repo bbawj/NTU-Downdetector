@@ -1,28 +1,31 @@
 .header {
   display: flex;
   width: 100%;
-  height: 35%;
+  height: 30%;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-top: 1em;
   background-image: url("../public/hero.svg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  margin-top: 1em;
+}
+
+.bg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .header > h3 {
-<<<<<<< HEAD
-  color: #ffffff;
-=======
   color: var(--text1);
->>>>>>> fc3999f0c6b6a12a3a32bad664b7d8b458b02974
+  margin-bottom: 1em;
 }
 
 .header_text {
   font-size: 2.5rem;
-  margin-bottom: 2em;
 }
 
 .header_text > span {
@@ -34,11 +37,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 2em;
 }
 .searchbox > input {
   outline: none;
-  border: 0;
+  border: 1;
   color: var(--text1);
   background-color: var(--bg);
   font-size: 1rem;

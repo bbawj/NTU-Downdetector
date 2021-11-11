@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import React from "react";
 import styles from "../styles/Home.module.css";
 import { FaSearch } from "react-icons/fa";
 
@@ -13,7 +13,7 @@ export default function Home() {
           content="Nanyang Technological University, NTU, downdetector"
         />
       </Head>
-      
+
       <div className={styles.header}>
         <h1 className={styles.header_text}>
           NTU <span>Down</span>detector
