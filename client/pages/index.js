@@ -2,8 +2,15 @@ import Head from "next/head";
 import React from "react";
 import styles from "../styles/Home.module.css";
 import { FaSearch } from "react-icons/fa";
+import { useHalls } from "../lib/swr-hooks";
 
 export default function Home() {
+  const { halls, isLoading } = useHalls();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <Head>
@@ -26,6 +33,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {halls && halls.map((e) => <div key={e.id}>{e.name}</div>)}
     </>
   );
 }
