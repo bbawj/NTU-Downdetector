@@ -10,7 +10,7 @@ There is no centralized platform to check the status of services at NTU. Inspire
 
 - React
 - MySQL
-- Express
+- NextJS
 - NodeJS
 
 ## Setup
@@ -20,6 +20,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 Create a `.env.local` file to store your MySQL database configs securely which will be ignored by git. Follow the template shown in [.env.example](.env.example)
+
+Make sure to create a local MySQL database in your local machine before running the development server.
 
 Run the development server:
 
