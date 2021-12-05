@@ -21,7 +21,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Create a `.env.local` file to store your MySQL database configs securely which will be ignored by git. Follow the template shown in [.env.example](.env.example)
 
-Make sure to create a local MySQL database in your local machine before running the development server.
+Make sure to create a local MySQL database in your local machine before running the development server. Run the SQL setup file in [setup.sql](/lib/setup.sql). This will create the standard database with dummy data.
 
 Run the development server:
 
@@ -36,6 +36,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+
+## How to Contribute
+1. Create a new branch from the main repository. Name it according to the feature or bug you are fixing eg. cards_feature.
+2. Make your commits in this new branch
+3. Submit a pull request when the code is ready to be merged. Assign someone to review your changes.
 
 ## Learn More
 
