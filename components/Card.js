@@ -26,16 +26,15 @@ export default function Card({ hall_name, times, data }) {
     let grouped_data = new Array(95).fill(0);
     for (let i = 0; i < data.length; i++) {
       const cur = Date.parse(data[i].timestamp);
-      console.log(cur);
       for (let j = 0; j < times.length - 1; j++) {
         if (cur >= times[j] && cur <= times[j + 1]) {
-          console.log("yeet");
           grouped_data[j] += 1;
         }
       }
     }
     setChartData(grouped_data);
   }, []);
+
   return (
     <div className="card btn">
       <div className="card-body">

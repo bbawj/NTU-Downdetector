@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { FaSearch } from "react-icons/fa";
 import { useHalls, useReports } from "../lib/swr-hooks";
@@ -8,16 +8,18 @@ import Card from "../components/Card";
 export default function Home() {
   const { halls, isHallLoading } = useHalls();
   const { reports, isLoading, isError } = useReports();
-  const start_time = Date.now();
-  let time_list = [];
-  // create the 96 15min intervals in 1 day
-  for (let i = 95; i >= 0; i--) {
-    const timestamp = new Date(start_time - i * 15 * 60000);
-    time_list.push(timestamp.valueOf());
-  }
-  console.log(halls);
-  console.log(reports);
-  console.log(time_list);
+  const [time_list, setTimeList] = useState([]);
+
+  useEffect(() => {
+    let temp = [];
+    // create the 96 15min intervals in 1 day
+    const start_time = Date.now();
+    for (let i = 95; i >= 0; i--) {
+      const timestamp = new Date(start_time - i * 15 * 60000);
+      temp.push(timestamp.valueOf());
+    }
+    setTimeList(temp);
+  }, []);
   return (
     <>
       <Head>
