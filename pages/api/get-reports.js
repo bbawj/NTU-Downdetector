@@ -5,7 +5,7 @@ export default async function reportHandler(req, res) {
     const time = Date.now() / 1000;
     const results = await query(
       `
-      SELECT name, hall_id, DATE_FORMAT(timestamp, "%Y-%m-%d %H:%i:%s") timestamp FROM hall h LEFT JOIN report r ON r.hall_id = h.id 
+      SELECT hall_id, DATE_FORMAT(timestamp, "%Y-%m-%d %H:%i:%s") timestamp FROM report r
       WHERE r.timestamp >= DATE_SUB(FROM_UNIXTIME(?), INTERVAL 24 HOUR)
   `,
       [time]
