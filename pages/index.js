@@ -2,12 +2,22 @@ import Head from "next/head";
 import React from "react";
 import styles from "../styles/Home.module.css";
 import { FaSearch } from "react-icons/fa";
-import { useHalls } from "../lib/swr-hooks";
+import { useHalls, useReports } from "../lib/swr-hooks";
 import Card from "../components/Card";
 
 export default function Home() {
-  const { halls, isLoading, isError } = useHalls();
+  const { halls, isHallLoading } = useHalls();
+  const { reports, isLoading, isError } = useReports();
+  const start_time = Date.now();
+  let time_list = [];
+  // create the 96 15min intervals in 1 day
+  for (let i = 95; i >= 0; i--) {
+    const timestamp = new Date(start_time - i * 15 * 60000);
+    time_list.push(timestamp.valueOf());
+  }
   console.log(halls);
+  console.log(reports);
+  console.log(time_list);
   return (
     <>
       <Head>
@@ -31,9 +41,17 @@ export default function Home() {
           </div>
         </div>
         <div className={styles.grid}>
-          {!isLoading &&
+          {!isHallLoading &&
+            !isLoading &&
             !isError &&
-            halls.map((e) => <Card name={e.name} key={e.id} />)}
+            halls.map((e) => (
+              <Card
+                hall_name={e.name}
+                key={e.id}
+                times={time_list}
+                data={reports.filter((r) => r.hall_id == e.id)}
+              />
+            ))}
         </div>
       </div>
     </>
