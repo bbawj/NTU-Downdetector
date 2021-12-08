@@ -38,43 +38,44 @@ export default function Card({ hall_name, times, data }) {
   }, []);
   return (
     <div className="card btn">
-      {console.log(chartData)}
-      {console.log(times.slice(0, times.length - 1))}
-      <Line
-        data={{
-          labels: times.slice(0, times.length - 1),
-          datasets: [
-            {
-              label: "Test",
-              data: chartData,
-              borderColor: "#000000",
-              borderWidth: 1,
-              pointRadius: 0,
-            },
-          ],
-        }}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false,
-            },
-            tooltip: {
-              enabled: false,
-            },
-          },
-          scales: {
-            y: {
-              display: false,
-            },
-            x: {
-              display: false,
-            },
-          },
-        }}
-      />
       <div className="card-body">
         <h5 className="card-title text-center">{hall_name}</h5>
+      </div>
+      <div className="container align-bottom py-2">
+        <Line
+          data={{
+            labels: times.slice(0, times.length - 1),
+            datasets: [
+              {
+                label: "Test",
+                data: chartData,
+                borderColor: "#000000",
+                borderWidth: 1,
+                pointRadius: 0,
+              },
+            ],
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+            scales: {
+              y: {
+                display: false,
+                beginAtZero: true,
+              },
+              x: {
+                display: false,
+              },
+            },
+          }}
+        />
       </div>
     </div>
   );
