@@ -11,14 +11,9 @@ export default function Hero() {
   const [chartData, setChartData] = useState({ datasets: [] });
 
   const data = [1, 2, 4, 3, 4, 5, 3, 4, 5, 5, 7, 4, 8];
+  const data1 = data.map((e) => e / 1.5);
+  const data2 = data.map((e) => e / 2);
   const labels = [...data];
-
-  const createGradient = (ctx, area) => {
-    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-    gradient.addColorStop(1, "rgba(250, 114, 104, 0.3)");
-    gradient.addColorStop(0, "rgba(199, 36, 36, 1)");
-    return gradient;
-  };
 
   useEffect(() => {
     const chart = chartRef.current;
@@ -29,9 +24,31 @@ export default function Hero() {
       labels: labels,
       datasets: [
         {
+          label: "d",
           data: data,
           fill: true,
-          backgroundColor: createGradient(chart.ctx, chart.chartArea),
+          backgroundColor: "#c72424",
+          order: 3,
+          pointRadius: 0,
+          borderWidth: 0,
+          tension: 0.3,
+        },
+        {
+          label: "d1",
+          data: data1,
+          fill: true,
+          backgroundColor: "#e14e46",
+          order: 2,
+          pointRadius: 0,
+          borderWidth: 0,
+          tension: 0.3,
+        },
+        {
+          label: "d2",
+          data: data2,
+          fill: true,
+          backgroundColor: "#fa7268",
+          order: 1,
           pointRadius: 0,
           borderWidth: 0,
           tension: 0.3,
@@ -45,6 +62,7 @@ export default function Hero() {
   return (
     <div className={styles.herobox}>
       <Line
+        redraw
         ref={chartRef}
         data={chartData}
         options={{
@@ -61,7 +79,9 @@ export default function Hero() {
                 context.mode === "default" &&
                 !delayed
               ) {
-                delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                delay =
+                  context.dataIndex ** 0.5 * 300 +
+                  context.datasetIndex ** 0.2 * 100;
               }
               return delay;
             },
