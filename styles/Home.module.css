@@ -2,11 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1em;
-  background-image: url("../public/hero.svg");
+  margin-top: 1em;
+  /* background-image: url("../public/hero.svg");
   background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 .bg {

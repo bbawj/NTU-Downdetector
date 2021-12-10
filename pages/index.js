@@ -4,6 +4,7 @@ import styles from "../styles/Home.module.css";
 import { FaSearch } from "react-icons/fa";
 import { useHalls, useReports } from "../lib/swr-hooks";
 import Card from "../components/Card";
+import Hero from "../components/Hero";
 
 export default function Home() {
   const { halls, isHallLoading } = useHalls();
@@ -42,6 +43,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        <Hero />
         <div className={styles.grid}>
           {!isHallLoading &&
             !isLoading &&
