@@ -10,6 +10,7 @@ import {
   PointElement,
   Tooltip,
 } from "chart.js";
+import Link from "next/link";
 
 ChartJS.register(
   LinearScale,
@@ -37,6 +38,7 @@ export default function Card({ hall_name, times, data }) {
   }, []);
 
   return (
+<<<<<<< HEAD
     <div className="card btn shadow-sm">
       <div className="card-body p-0">
         <Image
@@ -75,14 +77,56 @@ export default function Card({ hall_name, times, data }) {
               y: {
                 display: false,
                 beginAtZero: true,
+=======
+    <Link href={`/status/${hall_name}`}>
+      <div className="card btn">
+        <div className="card-body p-0">
+          <Image
+            src={`/${hall_name}.png`}
+            width={120}
+            height={120}
+            alt={hall_name}
+          />
+          <h5 className="card-title text-center">{hall_name}</h5>
+        </div>
+        <div className="container align-bottom py-2">
+          <Line
+            data={{
+              labels: times.slice(0, times.length - 1),
+              datasets: [
+                {
+                  label: "Test",
+                  data: chartData,
+                  borderColor: "#000000",
+                  borderWidth: 1,
+                  pointRadius: 0,
+                },
+              ],
+            }}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                tooltip: {
+                  enabled: false,
+                },
+>>>>>>> main
               },
-              x: {
-                display: false,
+              scales: {
+                y: {
+                  display: false,
+                  beginAtZero: true,
+                },
+                x: {
+                  display: false,
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
