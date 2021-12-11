@@ -24,6 +24,7 @@
 
 .header_text {
   font-size: 2.5rem;
+  font-weight: 600;
 }
 
 .header_text > span {
@@ -35,22 +36,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 1em;
 }
 .searchbox > input {
   outline: none;
   border: 1;
+  border-color: black;
   color: var(--text1);
   background-color: var(--bg);
   font-size: 1rem;
   padding: 1em;
   border-radius: 5px;
 }
+
 .button {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1em;
   cursor: pointer;
+  color: var(--accent);
 }
 
 .grid {

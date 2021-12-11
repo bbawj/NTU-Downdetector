@@ -37,7 +37,7 @@ export default function Card({ hall_name, times, data }) {
   }, []);
 
   return (
-    <div className="card btn">
+    <div className="card btn shadow-sm">
       <div className="card-body p-0">
         <Image
           src={`/${hall_name}.png`}
@@ -47,7 +47,7 @@ export default function Card({ hall_name, times, data }) {
         />
         <h5 className="card-title text-center">{hall_name}</h5>
       </div>
-      <div className="container align-bottom py-2">
+      <div className="container align-bottom pb-4">
         <Line
           data={{
             labels: times.slice(0, times.length - 1),

@@ -29,13 +29,19 @@ export default function Home() {
           name="keywords"
           content="Nanyang Technological University, NTU, downdetector"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <div className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.header_text}>
             NTU <span>Down</span>detector
           </h1>
-          <h3>Realtime user reports of NTU services</h3>
+          <h4>realtime user reports of NTU services</h4>
           <div className={styles.searchbox}>
             <input type="text" placeholder="Where are you?" />
             <div className={styles.button}>
