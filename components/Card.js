@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { Line } from "react-chartjs-2";
 import {
   CategoryScale,
@@ -37,7 +38,13 @@ export default function Card({ hall_name, times, data }) {
 
   return (
     <div className="card btn">
-      <div className="card-body">
+      <div className="card-body p-0">
+        <Image
+          src={`/${hall_name}.png`}
+          width={120}
+          height={120}
+          alt={hall_name}
+        />
         <h5 className="card-title text-center">{hall_name}</h5>
       </div>
       <div className="container align-bottom py-2">
