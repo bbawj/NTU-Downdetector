@@ -8,6 +8,6 @@ export default async function hallHandler(req, res) {
 
     return res.json(results);
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    return res.status(500).json({ message: e.message });
   }
 }

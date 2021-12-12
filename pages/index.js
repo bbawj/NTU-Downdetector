@@ -7,8 +7,8 @@ import Card from "../components/Card";
 import Hero from "../components/Hero";
 
 export default function Home() {
-  const { halls, isHallLoading } = useHalls();
-  const { reports, isLoading, isError } = useReports();
+  const { halls, isHallLoading, isHallError } = useHalls();
+  const { reports, isReportLoading, isReportError } = useReports();
   const [time_list, setTimeList] = useState([]);
 
   useEffect(() => {
@@ -44,19 +44,22 @@ export default function Home() {
           </div>
         </div>
         <Hero />
-        <div className={styles.grid}>
-          {!isHallLoading &&
-            !isLoading &&
-            !isError &&
-            halls.map((e) => (
-              <Card
-                hall_name={e.name}
-                key={e.id}
-                times={time_list}
-                data={reports.filter((r) => r.hall_id == e.id)}
-              />
-            ))}
-        </div>
+        {isHallLoading || isReportLoading ? (
+          <div className="container mx-auto">Loading...</div>
+        ) : (
+          <div className={styles.grid}>
+            {!isHallError &&
+              !isReportError &&
+              halls.map((e) => (
+                <Card
+                  hall_name={e.name}
+                  key={e.id}
+                  times={time_list}
+                  data={reports.filter((r) => r.hall_id == e.id)}
+                />
+              ))}
+          </div>
+        )}
       </div>
     </>
   );
