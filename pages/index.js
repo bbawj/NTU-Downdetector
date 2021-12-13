@@ -6,10 +6,40 @@ import { useHalls, useReports } from "../lib/swr-hooks";
 import Card from "../components/Card";
 import Hero from "../components/Hero";
 
-export default function Home() {
-  const { halls, isHallLoading, isHallError } = useHalls();
-  const { reports, isReportLoading, isReportError } = useReports();
+export async function getStaticProps() {
+  let res = await fetch(
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/get-halls"
+      : process.env.productionURL
+  );
+  let hallData;
+  if (!res.ok) {
+    hallData = { error: true };
+  } else hallData = await res.json();
+
+  res = await fetch(
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3000/api/get-reports"
+      : process.env.productionURL
+  );
+  let reportData;
+  if (!res.ok) {
+    reportData = { error: true };
+  } else reportData = await res.json();
+
+  return {
+    props: {
+      halls: hallData,
+      reports: reportData,
+    },
+    revalidate: 60, //seconds
+  };
+}
+
+export default function Home(props) {
   const [time_list, setTimeList] = useState([]);
+  const { halls, isHallLoading, isHallError } = useHalls(props.halls);
+  const { reports, isReportLoading, isReportError } = useReports(props.reports);
 
   useEffect(() => {
     let temp = [];
