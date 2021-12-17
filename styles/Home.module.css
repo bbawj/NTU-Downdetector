@@ -40,8 +40,6 @@
 }
 .searchbox > input {
   outline: none;
-  border: 1;
-  border-color: black;
   color: var(--text1);
   background-color: var(--bg);
   font-size: 1rem;
@@ -62,7 +60,10 @@
   display: grid;
   padding: 1em;
   gap: 1em;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+  width: 90%;
+  margin: 0 auto;
+  justify-content: center;
 }
 
 .container {
