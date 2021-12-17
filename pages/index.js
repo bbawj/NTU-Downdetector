@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { FaSearch } from "react-icons/fa";
 import { useHalls, useReports } from "../lib/swr-hooks";
@@ -37,9 +37,21 @@ export async function getStaticProps() {
 }
 
 export default function Home(props) {
+  const searchBarRef = useRef();
   const [time_list, setTimeList] = useState([]);
   const { halls, isHallLoading, isHallError } = useHalls(props.halls);
   const { reports, isReportLoading, isReportError } = useReports(props.reports);
+  const [filteredHalls, setFilteredHalls] = useState([]);
+
+  function handleSearch() {
+    console.log(searchBarRef.current.value);
+    setFilteredHalls(
+      halls.filter((hall) => {
+        return hall.name.toLowerCase().includes(searchBarRef.current.value);
+      })
+    );
+    searchBarRef.current.value = "";
+  }
 
   useEffect(() => {
     let temp = [];
@@ -50,6 +62,17 @@ export default function Home(props) {
       temp.push(timestamp.valueOf());
     }
     setTimeList(temp);
+    setFilteredHalls(halls);
+    const listener = (event) => {
+      if (event.code === "Enter" || event.code === "NumpadEnter") {
+        event.preventDefault();
+        handleSearch();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
   }, []);
   return (
     <>
@@ -67,8 +90,12 @@ export default function Home(props) {
           </h1>
           <h4>realtime user reports of NTU services</h4>
           <div className={styles.searchbox}>
-            <input type="text" placeholder="Where are you?" />
-            <div className={styles.button}>
+            <input
+              ref={searchBarRef}
+              type="text"
+              placeholder="Where are you?"
+            />
+            <div className={styles.button} onClick={handleSearch}>
               <FaSearch />
             </div>
           </div>
@@ -80,7 +107,7 @@ export default function Home(props) {
           <div className={styles.grid}>
             {!isHallError &&
               !isReportError &&
-              halls.map((e) => (
+              filteredHalls.map((e) => (
                 <Card
                   hall_name={e.name}
                   key={e.id}
@@ -89,6 +116,9 @@ export default function Home(props) {
                 />
               ))}
           </div>
+        )}
+        {filteredHalls.length === 0 && (
+          <h3 className="text-center">No results found</h3>
         )}
       </div>
     </>

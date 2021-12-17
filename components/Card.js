@@ -39,7 +39,7 @@ export default function Card({ hall_name, times, data }) {
 
   return (
     <Link href={`/status/${hall_name}`}>
-      <div className="card btn">
+      <div className="card btn shadow-sm">
         <div className="card-body p-0">
           <Image
             src={`/${hall_name}.png`}
