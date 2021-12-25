@@ -44,7 +44,6 @@ export default function Home(props) {
   const [filteredHalls, setFilteredHalls] = useState([]);
 
   function handleSearch() {
-    console.log(searchBarRef.current.value);
     setFilteredHalls(
       halls.filter((hall) => {
         return hall.name.toLowerCase().includes(searchBarRef.current.value);

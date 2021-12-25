@@ -30,15 +30,15 @@ function HallStatusPage() {
 
   useEffect(() => {
     let times = [];
-    let temp2 = [];
+    let labels = [];
     // create the 96 15min intervals in 1 day
     const start_time = Date.now();
     for (let i = 96; i >= 0; i--) {
       const timestamp = new Date(start_time - i * 15 * 60000);
       times.push(timestamp.valueOf());
-      temp2.push(timestamp.toLocaleTimeString());
+      labels.push(timestamp.toLocaleTimeString());
     }
-    setLabels(temp2);
+    setLabels(labels);
     let grouped_data = new Array(96).fill(0);
 
     if (reports) {
