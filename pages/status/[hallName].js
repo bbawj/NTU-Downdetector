@@ -4,6 +4,7 @@ import { Line } from "react-chartjs-2";
 import { useIndividualReports } from "../../lib/swr-hooks";
 import {
   CategoryScale,
+  TimeSeriesScale,
   Chart as ChartJS,
   Legend,
   LinearScale,
@@ -14,6 +15,7 @@ import {
 ChartJS.register(
   LinearScale,
   CategoryScale,
+  TimeSeriesScale,
   PointElement,
   LineElement,
   Legend,
@@ -21,21 +23,24 @@ ChartJS.register(
 );
 function HallStatusPage() {
   const router = useRouter();
-  const { hallId } = router.query;
-  const { reports } = useIndividualReports(hallId);
-  const [times, setTimes] = useState([]);
-  const [data, setData] = useState([]);
+  const { hallName } = router.query;
+  const { reports } = useIndividualReports(hallName);
+  const [labels, setLabels] = useState([]);
+  const [data, setData] = useState();
 
   useEffect(() => {
-    let temp = [];
+    let times = [];
+    let temp2 = [];
     // create the 96 15min intervals in 1 day
     const start_time = Date.now();
     for (let i = 96; i >= 0; i--) {
       const timestamp = new Date(start_time - i * 15 * 60000);
-      temp.push(timestamp.valueOf());
+      times.push(timestamp.valueOf());
+      temp2.push(timestamp.toLocaleTimeString());
     }
-    setTimes(temp);
+    setLabels(temp2);
     let grouped_data = new Array(96).fill(0);
+
     if (reports) {
       for (let i = 0; i < reports.length; i++) {
         const cur = Date.parse(reports[i].timestamp);
@@ -46,23 +51,21 @@ function HallStatusPage() {
         }
       }
     }
-
     setData(grouped_data);
-  }, []);
+  }, [reports]);
 
   return (
     <div className="container mt-3">
-      <h1 className="text-center">{hallId}</h1>
+      <h1 className="text-center">{hallName}</h1>
       <Line
         data={{
-          labels: times,
+          labels: labels,
           datasets: [
             {
-              label: "Test",
+              label: "Reports",
               data: data,
-              borderColor: "#000000",
-              borderWidth: 1,
-              pointRadius: 0,
+              borderColor: "#fa5145",
+              borderWidth: 2,
             },
           ],
         }}
@@ -73,13 +76,18 @@ function HallStatusPage() {
           },
           scales: {
             x: {
+              grid: {
+                display: false,
+              },
               ticks: {
                 callback: (val, index) => {
-                  return index % 12 === 0
-                    ? new Date(times[val]).toLocaleTimeString()
-                    : "";
+                  return index % 12 === 0 ? labels[val] : "";
                 },
               },
+            },
+            y: {
+              beginAtZero: true,
+              grace: 5,
             },
           },
         }}
