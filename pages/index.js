@@ -101,12 +101,13 @@ export default function Home(props) {
           </div>
         </div>
         <Hero />
-        {isHallLoading || isReportLoading ? (
-          <div className="container mx-auto">Loading...</div>
+        {isHallError || isReportError ? (
+          <h5 className="text-center mt-5">An error occured</h5>
+        ) : isHallLoading || isReportLoading ? (
+          <h5 className="text-center mt-5">Loading...</h5>
         ) : (
           <div className={styles.grid}>
-            {!isHallError &&
-              !isReportError &&
+            {filteredHalls &&
               filteredHalls.map((e) => (
                 <Card
                   hall_name={e.name}
@@ -117,7 +118,7 @@ export default function Home(props) {
               ))}
           </div>
         )}
-        {filteredHalls.length === 0 && (
+        {filteredHalls && filteredHalls.length === 0 && (
           <h3 className="text-center">No results found</h3>
         )}
       </div>

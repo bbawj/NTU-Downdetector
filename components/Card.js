@@ -48,42 +48,43 @@ export default function Card({ hall_name, times, data }) {
             alt={hall_name}
           />
           <h5 className="card-title text-center">{hall_name}</h5>
-        </div>
-        <div className="container align-bottom py-2">
-          <Line
-            data={{
-              labels: times.slice(0, times.length - 1),
-              datasets: [
-                {
-                  label: "Test",
-                  data: chartData,
-                  borderColor: "#000000",
-                  borderWidth: 1,
-                  pointRadius: 0,
+          <div className="container align-bottom py-2 h-25">
+            <Line
+              data={{
+                labels: times.slice(0, times.length - 1),
+                datasets: [
+                  {
+                    label: "Test",
+                    data: chartData,
+                    borderColor: "#000000",
+                    borderWidth: 1,
+                    pointRadius: 0,
+                  },
+                ],
+              }}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                  tooltip: {
+                    enabled: false,
+                  },
                 },
-              ],
-            }}
-            options={{
-              responsive: true,
-              plugins: {
-                legend: {
-                  display: false,
+                scales: {
+                  y: {
+                    display: false,
+                    beginAtZero: true,
+                  },
+                  x: {
+                    display: false,
+                  },
                 },
-                tooltip: {
-                  enabled: false,
-                },
-              },
-              scales: {
-                y: {
-                  display: false,
-                  beginAtZero: true,
-                },
-                x: {
-                  display: false,
-                },
-              },
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
       </div>
     </Link>
