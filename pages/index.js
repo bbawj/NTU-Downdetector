@@ -19,7 +19,7 @@ export async function getStaticProps() {
 
   res = await fetch(
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/get-reports"
+      ? "http://localhost:3000/api/reports"
       : process.env.productionURL
   );
   let reportData;
@@ -57,7 +57,7 @@ export default function Home(props) {
     let temp = [];
     // create the 96 15min intervals in 1 day
     const start_time = Date.now();
-    for (let i = 95; i >= 0; i--) {
+    for (let i = 96; i >= 0; i--) {
       const timestamp = new Date(start_time - i * 15 * 60000);
       temp.push(timestamp.valueOf());
     }
@@ -108,12 +108,14 @@ export default function Home(props) {
         ) : (
           <div className={styles.grid}>
             {filteredHalls &&
+              filteredHalls.length != 0 &&
               filteredHalls.map((e) => (
                 <Card
+                  hall_id={e.id}
                   hall_name={e.name}
                   key={e.id}
                   times={time_list}
-                  data={reports.filter((r) => r.hall_id == e.id)}
+                  data={reports.filter((r) => r.hall_id === e.id)}
                 />
               ))}
           </div>

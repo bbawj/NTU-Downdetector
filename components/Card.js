@@ -25,7 +25,7 @@ export default function Card({ hall_name, times, data }) {
   const [chartData, setChartData] = useState();
 
   useEffect(() => {
-    let grouped_data = new Array(95).fill(0);
+    let grouped_data = new Array(96).fill(0);
     for (let i = 0; i < data.length; i++) {
       const cur = Date.parse(data[i].timestamp);
       for (let j = 0; j < times.length - 1; j++) {
