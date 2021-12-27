@@ -21,12 +21,19 @@ ChartJS.register(
   Legend,
   Tooltip
 );
+import styles from "../../styles/Hall.module.css";
+
 function HallStatusPage() {
   const router = useRouter();
   const { hallName } = router.query;
   const { reports } = useIndividualReports(hallName);
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("posted");
+  };
 
   useEffect(() => {
     let times = [];
@@ -92,6 +99,24 @@ function HallStatusPage() {
           },
         }}
       />
+      <div className="container mt-5 p-4 card">
+        <div className="row">
+          <h3>Community comments</h3>
+        </div>
+        <div className="row">
+          <form className={styles.commentBox} onSubmit={handleSubmit}>
+            <div className={styles.labelBox}>
+              <textarea id="comment" name="text" required autoComplete="off" />
+              <label htmlFor="comment" className={styles.commentLabel}>
+                <span className={styles.commentContent}>
+                  Experiencing issues?
+                </span>
+              </label>
+            </div>
+            <button type="submit">Post</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
