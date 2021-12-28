@@ -34,7 +34,9 @@ function HallStatusPage() {
   const { hall_id } = router.query;
   const { reports } = useIndividualReports(hall_id);
   const { hall } = useIndividualHall(hall_id);
-  const { comments, isCommentLoading, isCommentError } = useComments();
+  const { comments, isCommentLoading, isCommentError } = useComments({
+    hall_id: hall_id,
+  });
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
   const [comment, setComment] = useState();
@@ -155,7 +157,7 @@ function HallStatusPage() {
           comments.map((comment) => (
             <Comment
               key={comment.id}
-              user={comment.user_id}
+              user={comment.email.split("@")[0]}
               text={comment.text}
               time={comment.posted_at}
             />

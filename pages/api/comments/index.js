@@ -1,4 +1,4 @@
-import { query } from "../../lib/db";
+import { query } from "../../../lib/db";
 
 export default async function commentHandler(req, res) {
   const {
@@ -9,7 +9,7 @@ export default async function commentHandler(req, res) {
     let results;
     switch (method) {
       case "GET":
-        results = await query(`SELECT * from comment`);
+        results = await query(`SELECT * from comment c`);
         return res.json(results);
 
       case "POST":
