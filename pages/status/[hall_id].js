@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import { useIndividualReports } from "../../lib/swr-hooks";
+import { useIndividualHall, useIndividualReports } from "../../lib/swr-hooks";
 import {
   CategoryScale,
   TimeSeriesScale,
@@ -22,17 +22,36 @@ ChartJS.register(
   Tooltip
 );
 import styles from "../../styles/Hall.module.css";
+import { defaultFetcher } from "../../lib/utils";
 
 function HallStatusPage() {
   const router = useRouter();
-  const { hallName } = router.query;
-  const { reports } = useIndividualReports(hallName);
+  const { hall_id } = router.query;
+  const { reports } = useIndividualReports(hall_id);
+  const { hallName } = useIndividualHall(hall_id);
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
+  const [comment, setComment] = useState();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("posted");
+    const res = await defaultFetcher("comments", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: 1,
+        hall_id: hall_id,
+        text: comment,
+        posted_at: new Date().toISOString().slice(0, 19).replace("T", " "),
+      }),
+    });
+    console.log(res);
+
+    //todo: add checks to ensure user is authenticated
+  };
+
+  const handleChange = (e) => {
+    setComment(e.target.value);
   };
 
   useEffect(() => {
@@ -63,7 +82,7 @@ function HallStatusPage() {
 
   return (
     <div className="container mt-3">
-      <h1 className="text-center">{hallName}</h1>
+      <h1 className="text-center">{hallName.name}</h1>
       <Line
         data={{
           labels: labels,
@@ -101,12 +120,19 @@ function HallStatusPage() {
       />
       <div className="container mt-5 p-4 card">
         <div className="row">
-          <h3>Community comments</h3>
+          <h5>Community comments</h5>
         </div>
         <div className="row">
           <form className={styles.commentBox} onSubmit={handleSubmit}>
             <div className={styles.labelBox}>
-              <textarea id="comment" name="text" required autoComplete="off" />
+              <textarea
+                value={comment}
+                onChange={handleChange}
+                id="comment"
+                name="text"
+                required
+                autoComplete="off"
+              />
               <label htmlFor="comment" className={styles.commentLabel}>
                 <span className={styles.commentContent}>
                   Experiencing issues?

@@ -8,7 +8,7 @@ import Hero from "../components/Hero";
 import { defaultFetcher } from "../lib/utils";
 
 export async function getStaticProps() {
-  const hallData = await defaultFetcher("get-halls");
+  const hallData = await defaultFetcher("halls");
   const reportData = await defaultFetcher("reports");
 
   return {

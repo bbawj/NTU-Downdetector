@@ -1,4 +1,4 @@
-import { query } from "../../lib/db";
+import { query } from "../../../lib/db";
 
 export default async function hallHandler(req, res) {
   try {
