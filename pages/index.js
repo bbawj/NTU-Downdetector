@@ -5,27 +5,11 @@ import { FaSearch } from "react-icons/fa";
 import { useHalls, useReports } from "../lib/swr-hooks";
 import Card from "../components/Card";
 import Hero from "../components/Hero";
+import { defaultFetcher } from "../lib/utils";
 
 export async function getStaticProps() {
-  let res = await fetch(
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/get-halls"
-      : process.env.productionURL
-  );
-  let hallData;
-  if (!res.ok) {
-    hallData = { error: true };
-  } else hallData = await res.json();
-
-  res = await fetch(
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/reports"
-      : process.env.productionURL
-  );
-  let reportData;
-  if (!res.ok) {
-    reportData = { error: true };
-  } else reportData = await res.json();
+  const hallData = await defaultFetcher("get-halls");
+  const reportData = await defaultFetcher("reports");
 
   return {
     props: {
