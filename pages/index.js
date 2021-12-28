@@ -30,7 +30,12 @@ export default function Home(props) {
   function handleSearch() {
     setFilteredHalls(
       halls.filter((hall) => {
-        return hall.name.toLowerCase().includes(searchBarRef.current.value);
+        return hall.name
+          .toLowerCase()
+          .replace(/\s/g, "")
+          .includes(
+            searchBarRef.current.value.toLowerCase().replace(/\s/g, "")
+          );
       })
     );
     searchBarRef.current.value = "";

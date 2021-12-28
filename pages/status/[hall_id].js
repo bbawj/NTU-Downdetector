@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import { useIndividualHall, useIndividualReports } from "../../lib/swr-hooks";
+import {
+  useComments,
+  useIndividualHall,
+  useIndividualReports,
+} from "../../lib/swr-hooks";
 import {
   CategoryScale,
   TimeSeriesScale,
@@ -23,12 +27,14 @@ ChartJS.register(
 );
 import styles from "../../styles/Hall.module.css";
 import { defaultFetcher } from "../../lib/utils";
+import Comment from "../../components/Comment";
 
 function HallStatusPage() {
   const router = useRouter();
   const { hall_id } = router.query;
   const { reports } = useIndividualReports(hall_id);
-  const { hallName } = useIndividualHall(hall_id);
+  const { hall } = useIndividualHall(hall_id);
+  const { comments, isCommentLoading, isCommentError } = useComments();
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
   const [comment, setComment] = useState();
@@ -82,7 +88,7 @@ function HallStatusPage() {
 
   return (
     <div className="container mt-3">
-      <h1 className="text-center">{hallName.name}</h1>
+      <h1 className="text-center">{hall && hall[0].name}</h1>
       <Line
         data={{
           labels: labels,
@@ -142,6 +148,19 @@ function HallStatusPage() {
             <button type="submit">Post</button>
           </form>
         </div>
+        {isCommentLoading ? (
+          <div>Loading...</div>
+        ) : (
+          !isCommentError &&
+          comments.map((comment) => (
+            <Comment
+              key={comment.id}
+              user={comment.user_id}
+              text={comment.text}
+              time={comment.posted_at}
+            />
+          ))
+        )}
       </div>
     </div>
   );
