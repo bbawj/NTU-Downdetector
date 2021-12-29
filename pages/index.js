@@ -26,6 +26,7 @@ export default function Home(props) {
   const { halls, isHallLoading, isHallError } = useHalls(props.halls);
   const { reports, isReportLoading, isReportError } = useReports(props.reports);
   const [filteredHalls, setFilteredHalls] = useState([]);
+
   function handleSearch() {
     setFilteredHalls(
       halls.filter((hall) => {
