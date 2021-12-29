@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  align-items: center;
+}
+.username {
+  font-weight: 600;
+}
+.duration {
+  font-size: 0.75rem;
+  color: #999;
+  margin-left: 0.5rem;
+}

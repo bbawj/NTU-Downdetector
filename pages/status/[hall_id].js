@@ -35,9 +35,6 @@ function HallStatusPage() {
   const { hall_id } = router.query;
   const { reports } = useIndividualReports(hall_id);
   const { hall } = useIndividualHall(hall_id);
-  // const { comments, isCommentLoading, isCommentError } = useComments({
-  //   hall_id: hall_id,
-  // });
   const {
     commentData,
     size,
@@ -46,6 +43,7 @@ function HallStatusPage() {
     isCommentError,
     isCommentEnd,
     isNoComments,
+    commentMutate,
   } = useInfiniteComments({ hall_id: hall_id });
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
@@ -53,20 +51,26 @@ function HallStatusPage() {
   const comments = commentData ? [].concat(...commentData) : [];
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await defaultFetcher("comments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    try {
+      e.preventDefault();
+      const newComment = {
         user_id: 1,
         hall_id: hall_id,
         text: comment,
         posted_at: new Date().toISOString().slice(0, 19).replace("T", " "),
-      }),
-    });
-    console.log(res);
-
-    //todo: add checks to ensure user is authenticated
+      };
+      const res = await defaultFetcher("comments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newComment),
+      });
+      commentMutate([...commentData, { ...newComment, id: res.insertId }]);
+      setComment("");
+      //todo: add checks to ensure user is authenticated
+    } catch (error) {
+      //todo: add error handling for failed post request
+      console.log(error.message);
+    }
   };
 
   const handleChange = (e) => {
