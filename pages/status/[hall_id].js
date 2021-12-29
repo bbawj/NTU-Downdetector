@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
-  //useComments,
   useIndividualHall,
   useIndividualReports,
   useInfiniteComments,
@@ -33,8 +32,12 @@ import Comment from "../../components/Comment";
 function HallStatusPage() {
   const router = useRouter();
   const { hall_id } = router.query;
-  const { reports } = useIndividualReports(hall_id);
-  const { hall } = useIndividualHall(hall_id);
+  const [mounted, setMounted] = useState(false);
+  const { reports } = useIndividualReports({
+    mounted: mounted,
+    hall_id: hall_id,
+  });
+  const { hall } = useIndividualHall({ mounted: mounted, hall_id: hall_id });
   const {
     commentData,
     size,
@@ -44,7 +47,7 @@ function HallStatusPage() {
     isCommentEnd,
     isNoComments,
     commentMutate,
-  } = useInfiniteComments({ hall_id: hall_id });
+  } = useInfiniteComments({ mounted: mounted, hall_id: hall_id });
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
   const [comment, setComment] = useState();
@@ -102,6 +105,10 @@ function HallStatusPage() {
     }
     setData(grouped_data);
   }, [reports]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="container mt-3">
