@@ -2,9 +2,10 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
-  useComments,
+  //useComments,
   useIndividualHall,
   useIndividualReports,
+  useInfiniteComments,
 } from "../../lib/swr-hooks";
 import {
   CategoryScale,
@@ -34,12 +35,22 @@ function HallStatusPage() {
   const { hall_id } = router.query;
   const { reports } = useIndividualReports(hall_id);
   const { hall } = useIndividualHall(hall_id);
-  const { comments, isCommentLoading, isCommentError } = useComments({
-    hall_id: hall_id,
-  });
+  // const { comments, isCommentLoading, isCommentError } = useComments({
+  //   hall_id: hall_id,
+  // });
+  const {
+    commentData,
+    size,
+    setSize,
+    isCommentLoading,
+    isCommentError,
+    isCommentEnd,
+    isNoComments,
+  } = useInfiniteComments({ hall_id: hall_id });
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
   const [comment, setComment] = useState();
+  const comments = commentData ? [].concat(...commentData) : [];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,19 +161,26 @@ function HallStatusPage() {
             <button type="submit">Post</button>
           </form>
         </div>
-        {isCommentLoading ? (
-          <div>Loading...</div>
-        ) : (
-          !isCommentError &&
+        {isNoComments && <div className="row">No comments found</div>}
+        {!isCommentError &&
           comments.map((comment) => (
             <Comment
               key={comment.id}
-              user={comment.email.split("@")[0]}
+              user={comment.email}
               text={comment.text}
               time={comment.posted_at}
             />
-          ))
-        )}
+          ))}
+        <button
+          disabled={isCommentLoading || isCommentEnd}
+          onClick={() => setSize(size + 1)}
+        >
+          {isCommentLoading
+            ? "Loading..."
+            : isCommentEnd
+            ? "No more comments"
+            : "Load more"}
+        </button>
       </div>
     </div>
   );
