@@ -28,16 +28,15 @@ ChartJS.register(
 import styles from "../../styles/Hall.module.css";
 import { defaultFetcher } from "../../lib/utils";
 import Comment from "../../components/Comment";
+import Image from "next/image";
 
 function HallStatusPage() {
   const router = useRouter();
   const { hall_id } = router.query;
   const [mounted, setMounted] = useState(false);
-  const { reports } = useIndividualReports({
-    mounted: mounted,
-    hall_id: hall_id,
-  });
-  const { hall } = useIndividualHall({ mounted: mounted, hall_id: hall_id });
+  const params = { mounted: mounted, hall_id: hall_id };
+  const { reports } = useIndividualReports(params);
+  const { hall } = useIndividualHall(params);
   const {
     commentData,
     size,
@@ -47,7 +46,7 @@ function HallStatusPage() {
     isCommentEnd,
     isNoComments,
     commentMutate,
-  } = useInfiniteComments({ mounted: mounted, hall_id: hall_id });
+  } = useInfiniteComments(params);
   const [labels, setLabels] = useState([]);
   const [data, setData] = useState();
   const [comment, setComment] = useState();
@@ -72,7 +71,8 @@ function HallStatusPage() {
       //todo: add checks to ensure user is authenticated
     } catch (error) {
       //todo: add error handling for failed post request
-      console.log(error.message);
+      console.error(error.message);
+      alert("Failed to post your comment. Please try again.");
     }
   };
 
@@ -112,6 +112,15 @@ function HallStatusPage() {
 
   return (
     <div className="container mt-3">
+      <div className={styles.header + " row"}>
+        <Image
+          className={styles.logo}
+          src={hall ? `/${hall[0].name}.png` : "data:,"}
+          width={240}
+          height={240}
+          layout="fixed"
+        />
+      </div>
       <h1 className="text-center">{hall && hall[0].name}</h1>
       <Line
         data={{
@@ -168,8 +177,10 @@ function HallStatusPage() {
                   Experiencing issues?
                 </span>
               </label>
+              <button disabled={!comment} type="submit">
+                Post
+              </button>
             </div>
-            <button type="submit">Post</button>
           </form>
         </div>
         {isNoComments && <div className="row">No comments found</div>}
