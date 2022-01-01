@@ -65,3 +65,9 @@
   border-radius: 10px;
   padding: 0.5rem 1rem;
 }
+
+.openModal {
+  color: var(--accent);
+  text-decoration: underline;
+  cursor: pointer;
+}

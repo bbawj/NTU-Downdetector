@@ -17,6 +17,7 @@
   border-radius: 3px;
   outline: none;
   width: 100%;
+  font-size: 14px;
 }
 
 .inputGroup .placeholder {
@@ -27,7 +28,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   top: calc(50% - var(--field-padding));
-  line-height: 100%;
+  /* line-height: 100%; */
   transform: translateY(-50%);
   color: #aaa;
   transition: all 0.3s ease;

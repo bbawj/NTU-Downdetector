@@ -160,9 +160,17 @@ function HallStatusPage() {
         }}
       />
       <div className="container mt-5 p-4 card">
-        <div className="row">
-          <h5>Community comments</h5>
-          <button onClick={() => setOpenModal(true)}>Login</button>
+        <div className="row justify-content-start">
+          <h5 className="col-auto">Community comments</h5>
+          <div className="col">
+            <span
+              className={styles.openModal}
+              onClick={() => setOpenModal(true)}
+            >
+              Login
+            </span>{" "}
+            to join the discussion.
+          </div>
           {openModal && <AuthModal setOpenModal={setOpenModal} />}
         </div>
         <div className="row">

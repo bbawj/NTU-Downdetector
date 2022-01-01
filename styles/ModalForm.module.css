@@ -1,0 +1,29 @@
+.form {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  top: -100%;
+  transform: translateY(-10px);
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+.form.activeBody {
+  transform: translateY(0px);
+  top: 0;
+  opacity: 1;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  background-color: var(--accent);
+  color: white;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1em;
+}
