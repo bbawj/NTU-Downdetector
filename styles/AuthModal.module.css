@@ -1,0 +1,68 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+.modal {
+  position: fixed;
+  width: clamp(50%, 700px, 90%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.modal form button {
+  background-color: var(--accent);
+  color: white;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1em;
+}
+
+.tabs {
+  display: flex;
+  position: relative;
+  background-color: #bea6a1;
+  border-radius: 100px;
+  width: 50%;
+  margin: 1em 0;
+  --padding: 1rem;
+}
+
+.tabs > div:not(.indicator) {
+  font-size: 1.5rem;
+  width: 50%;
+  text-align: center;
+  padding: var(--padding) calc(2 * var(--padding));
+  transition: color 0.3s ease-in-out;
+}
+
+.tabs > .active {
+  color: white;
+  z-index: 2;
+}
+
+.indicator {
+  position: absolute;
+  width: calc(50% - var(--padding));
+  height: 85%;
+  background: var(--accent);
+  top: calc(50% - var(--padding) + 1em);
+  left: calc(0.5 * var(--padding));
+  border-radius: inherit;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px,
+    rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  transform: translateY(-50%);
+  transition: all 300ms ease-in-out;
+}
+
+.indicatorRight {
+  left: calc(50% + 0.5 * var(--padding));
+}

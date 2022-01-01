@@ -29,6 +29,7 @@ import styles from "../../styles/Hall.module.css";
 import { defaultFetcher } from "../../lib/utils";
 import Comment from "../../components/Comment";
 import Image from "next/image";
+import AuthModal from "../../components/AuthModal";
 
 function HallStatusPage() {
   const router = useRouter();
@@ -51,6 +52,7 @@ function HallStatusPage() {
   const [data, setData] = useState();
   const [comment, setComment] = useState();
   const comments = commentData ? [].concat(...commentData) : [];
+  const [openModal, setOpenModal] = useState(false);
 
   const handleSubmit = async (e) => {
     try {
@@ -160,6 +162,8 @@ function HallStatusPage() {
       <div className="container mt-5 p-4 card">
         <div className="row">
           <h5>Community comments</h5>
+          <button onClick={() => setOpenModal(true)}>Login</button>
+          {openModal && <AuthModal setOpenModal={setOpenModal} />}
         </div>
         <div className="row">
           <form className={styles.commentBox} onSubmit={handleSubmit}>
