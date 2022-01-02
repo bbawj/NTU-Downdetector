@@ -6,6 +6,7 @@ import TextInput from "./TextInput";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { defaultFetcher } from "../lib/utils";
 
 const loginSchema = yup.object({
   email: yup.string().email().required("Please enter your email"),
@@ -20,10 +21,10 @@ const signupSchema = yup.object({
       message: "Only NTU email is allowed",
     })
     .required("Email must not be empty"), //ntu domain exists at the endof string
-  password: yup.string().required("Password cannot be empty"),
+  password: yup.string().required("Password cannot be empty."),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+    .oneOf([yup.ref("password"), null], "Passwords must match."),
 });
 
 export default function AuthModal({ setOpenModal }) {
@@ -42,7 +43,16 @@ export default function AuthModal({ setOpenModal }) {
   } = useForm({ resolver: yupResolver(signupSchema) });
 
   const onSubmit = (data) => console.log(data);
-  const onSignupSubmit = (data) => console.log(data);
+  const onSignupSubmit = async (data) => {
+    const res = await defaultFetcher("user/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (res.error) {
+      //todo handle error
+    }
+  };
 
   return (
     <ClientOnlyPortal selector="#modal">
@@ -109,7 +119,7 @@ export default function AuthModal({ setOpenModal }) {
                   name="password"
                   errors={signupErrors}
                   register={signupRegister}
-                  placeholder="Min 8 characters"
+                  placeholder="Password"
                 />
                 <TextInput
                   name="passwordConfirm"

@@ -22,7 +22,7 @@
   position: relative;
   background-color: #bea6a1;
   border-radius: 100px;
-  width: 50%;
+  width: clamp(50%, 300px, 100%);
   margin: 1em 0;
   --padding: 1rem;
 }

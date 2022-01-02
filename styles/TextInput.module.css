@@ -1,6 +1,6 @@
 .inputGroup {
   position: relative;
-  margin-bottom: 1em;
+  /* margin-bottom: 1em; */
   width: 100%;
   border-top: 20px solid transparent;
   --field-padding: 0.5rem;
