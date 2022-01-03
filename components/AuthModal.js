@@ -50,7 +50,6 @@ export default function AuthModal({ mutate, setOpenModal }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    console.log(res);
     if (res.error) {
       setError("password", {
         type: "manual",
@@ -73,6 +72,10 @@ export default function AuthModal({ mutate, setOpenModal }) {
         type: "manual",
         message: "Failed to create your account. Please try again.",
       });
+    } else {
+      //todo: open success modal telling users to verify email
+      //for now we simply close the modal
+      setOpenModal(false);
     }
   };
 
