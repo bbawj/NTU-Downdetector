@@ -55,7 +55,6 @@ function HallStatusPage() {
   const comments = commentData ? [].concat(...commentData) : [];
   const [openModal, setOpenModal] = useState(false);
   const [user, { mutate }] = useUser();
-  console.log(user);
 
   const handleSubmit = async (e) => {
     try {
@@ -86,13 +85,11 @@ function HallStatusPage() {
   };
 
   const logout = async () => {
-    const res = await defaultFetcher("user/logout");
+    await defaultFetcher("user/logout");
     mutate(null);
-    console.log(res);
   };
 
   useEffect(() => {
-    console.log("yeet");
     let times = [];
     let labels = [];
     // create the 96 15min intervals in 1 day
