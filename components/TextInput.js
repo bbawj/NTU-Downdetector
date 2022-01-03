@@ -12,7 +12,9 @@ export default function TextInput({
     <label className={styles.inputGroup} htmlFor={name}>
       <input type={type} {...register(name)} required />
       <span className={styles.placeholder}>{placeholder}</span>
-      <p className="text-danger">{errors.name?.message}</p>
+      <p className="text-danger">
+        {errors[name] ? errors[name].message : null}
+      </p>
     </label>
   );
 }

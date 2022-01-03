@@ -27,7 +27,7 @@ const signupSchema = yup.object({
     .oneOf([yup.ref("password"), null], "Passwords must match."),
 });
 
-export default function AuthModal({ setOpenModal }) {
+export default function AuthModal({ mutate, setOpenModal }) {
   const [activeTab, setActiveTab] = useState(0);
   const {
     register,
@@ -50,11 +50,15 @@ export default function AuthModal({ setOpenModal }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    console.log(res);
     if (res.error) {
       setError("password", {
         type: "manual",
         message: "Invalid email and password combination.",
       });
+    } else {
+      mutate(res);
+      setOpenModal(false);
     }
   };
 

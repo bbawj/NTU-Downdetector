@@ -54,7 +54,7 @@ function HallStatusPage() {
   const [comment, setComment] = useState();
   const comments = commentData ? [].concat(...commentData) : [];
   const [openModal, setOpenModal] = useState(false);
-  const user = useUser();
+  const [user, { mutate }] = useUser();
   console.log(user);
 
   const handleSubmit = async (e) => {
@@ -85,7 +85,14 @@ function HallStatusPage() {
     setComment(e.target.value);
   };
 
+  const logout = async () => {
+    const res = await defaultFetcher("user/logout");
+    mutate(null);
+    console.log(res);
+  };
+
   useEffect(() => {
+    console.log("yeet");
     let times = [];
     let labels = [];
     // create the 96 15min intervals in 1 day
@@ -169,7 +176,9 @@ function HallStatusPage() {
             {user ? (
               <span>
                 Logged in as {user.email.split("@")[0]}.{" "}
-                <span className={styles.openModal}>Logout?</span>
+                <span onClick={logout} className={styles.openModal}>
+                  Logout?
+                </span>
               </span>
             ) : (
               <span>
@@ -183,7 +192,9 @@ function HallStatusPage() {
               </span>
             )}
           </div>
-          {openModal && <AuthModal setOpenModal={setOpenModal} />}
+          {openModal && (
+            <AuthModal mutate={mutate} setOpenModal={setOpenModal} />
+          )}
         </div>
         <div className="row">
           <form className={styles.commentBox} onSubmit={handleSubmit}>

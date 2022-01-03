@@ -25,9 +25,9 @@ export default nextConnect()
       const session = { email: user.email };
       await setLoginSession(res, session);
 
-      res.status(200).send({ done: true });
+      res.status(200).send(session);
     } catch (error) {
       console.error(error);
-      res.status(401).send(error.message);
+      res.status(401).json({ error: error.message });
     }
   });
