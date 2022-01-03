@@ -21,11 +21,11 @@ ChartJS.register(
   Tooltip
 );
 
-export default function Card({ hall_name, times, data }) {
+export default function Card({ hall_id, hall_name, times, data }) {
   const [chartData, setChartData] = useState();
 
   useEffect(() => {
-    let grouped_data = new Array(95).fill(0);
+    let grouped_data = new Array(96).fill(0);
     for (let i = 0; i < data.length; i++) {
       const cur = Date.parse(data[i].timestamp);
       for (let j = 0; j < times.length - 1; j++) {
@@ -38,7 +38,7 @@ export default function Card({ hall_name, times, data }) {
   }, []);
 
   return (
-    <Link href={`/status/${hall_name}`}>
+    <Link href={`/status/${hall_id}`}>
       <div className="card btn shadow-sm">
         <div className="card-body p-0">
           <Image

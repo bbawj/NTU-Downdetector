@@ -1,0 +1,43 @@
+.inputGroup {
+  position: relative;
+  /* margin-bottom: 1em; */
+  width: 100%;
+  border-top: 20px solid transparent;
+  --field-padding: 0.5rem;
+}
+
+.inputGroup input {
+  border: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #f2f2f2;
+  padding: var(--field-padding);
+  border-radius: 3px;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+
+.inputGroup .placeholder {
+  position: absolute;
+  left: var(--field-padding);
+  width: calc(100% - (var(--field-padding) * 2));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  top: calc(50% - var(--field-padding));
+  /* line-height: 100%; */
+  transform: translateY(-50%);
+  color: #aaa;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.inputGroup input:focus + .placeholder,
+.inputGroup input:valid + .placeholder {
+  top: -10px;
+  font-size: 10px;
+  color: #222;
+}

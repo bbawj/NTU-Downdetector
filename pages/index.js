@@ -5,27 +5,11 @@ import { FaSearch } from "react-icons/fa";
 import { useHalls, useReports } from "../lib/swr-hooks";
 import Card from "../components/Card";
 import Hero from "../components/Hero";
+import { defaultFetcher } from "../lib/utils";
 
 export async function getStaticProps() {
-  let res = await fetch(
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/get-halls"
-      : process.env.productionURL
-  );
-  let hallData;
-  if (!res.ok) {
-    hallData = { error: true };
-  } else hallData = await res.json();
-
-  res = await fetch(
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api/get-reports"
-      : process.env.productionURL
-  );
-  let reportData;
-  if (!res.ok) {
-    reportData = { error: true };
-  } else reportData = await res.json();
+  const hallData = await defaultFetcher("halls");
+  const reportData = await defaultFetcher("reports");
 
   return {
     props: {
@@ -44,10 +28,14 @@ export default function Home(props) {
   const [filteredHalls, setFilteredHalls] = useState([]);
 
   function handleSearch() {
-    console.log(searchBarRef.current.value);
     setFilteredHalls(
       halls.filter((hall) => {
-        return hall.name.toLowerCase().includes(searchBarRef.current.value);
+        return hall.name
+          .toLowerCase()
+          .replace(/\s/g, "")
+          .includes(
+            searchBarRef.current.value.toLowerCase().replace(/\s/g, "")
+          );
       })
     );
     searchBarRef.current.value = "";
@@ -57,7 +45,7 @@ export default function Home(props) {
     let temp = [];
     // create the 96 15min intervals in 1 day
     const start_time = Date.now();
-    for (let i = 95; i >= 0; i--) {
+    for (let i = 96; i >= 0; i--) {
       const timestamp = new Date(start_time - i * 15 * 60000);
       temp.push(timestamp.valueOf());
     }
@@ -108,12 +96,14 @@ export default function Home(props) {
         ) : (
           <div className={styles.grid}>
             {filteredHalls &&
+              filteredHalls.length != 0 &&
               filteredHalls.map((e) => (
                 <Card
+                  hall_id={e.id}
                   hall_name={e.name}
                   key={e.id}
                   times={time_list}
-                  data={reports.filter((r) => r.hall_id == e.id)}
+                  data={reports.filter((r) => r.hall_id === e.id)}
                 />
               ))}
           </div>

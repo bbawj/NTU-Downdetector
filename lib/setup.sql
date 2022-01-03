@@ -15,6 +15,24 @@ create table report (
     foreign key (hall_id) references hall(id)
 );
 
+create table user (
+	id int not null AUTO_INCREMENT,
+    email varchar(255) not null,
+    password varchar(255) not null,
+    PRIMARY KEY (id)
+);
+
+create table comment(
+	id int not null AUTO_INCREMENT,
+    user_id int not null,
+    hall_id int not null,
+    text text not null,
+    posted_at datetime not null,
+    primary key (id),
+    foreign key (user_id) references user(id),
+    foreign key (hall_id) references hall(id)
+);
+
 create index timestamp_idx ON report (timestamp);
 
 # hall dummy data
