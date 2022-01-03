@@ -5,6 +5,7 @@ import {
   useIndividualHall,
   useIndividualReports,
   useInfiniteComments,
+  useUser,
 } from "../../lib/swr-hooks";
 import {
   CategoryScale,
@@ -53,6 +54,8 @@ function HallStatusPage() {
   const [comment, setComment] = useState();
   const comments = commentData ? [].concat(...commentData) : [];
   const [openModal, setOpenModal] = useState(false);
+  const user = useUser();
+  console.log(user);
 
   const handleSubmit = async (e) => {
     try {
@@ -163,13 +166,22 @@ function HallStatusPage() {
         <div className="row justify-content-start">
           <h5 className="col-auto">Community comments</h5>
           <div className="col">
-            <span
-              className={styles.openModal}
-              onClick={() => setOpenModal(true)}
-            >
-              Login
-            </span>{" "}
-            to join the discussion.
+            {user ? (
+              <span>
+                Logged in as {user.email.split("@")[0]}.{" "}
+                <span className={styles.openModal}>Logout?</span>
+              </span>
+            ) : (
+              <span>
+                <span
+                  className={styles.openModal}
+                  onClick={() => setOpenModal(true)}
+                >
+                  Login
+                </span>{" "}
+                to join the discussion.
+              </span>
+            )}
           </div>
           {openModal && <AuthModal setOpenModal={setOpenModal} />}
         </div>

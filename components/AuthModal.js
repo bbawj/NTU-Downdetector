@@ -32,6 +32,7 @@ export default function AuthModal({ setOpenModal }) {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(loginSchema),
@@ -39,10 +40,24 @@ export default function AuthModal({ setOpenModal }) {
   const {
     register: signupRegister,
     handleSubmit: handleSignupSubmit,
+    setError: setSignupError,
     formState: { errors: signupErrors },
   } = useForm({ resolver: yupResolver(signupSchema) });
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const res = await defaultFetcher("user/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (res.error) {
+      setError("password", {
+        type: "manual",
+        message: "Invalid email and password combination.",
+      });
+    }
+  };
+
   const onSignupSubmit = async (data) => {
     const res = await defaultFetcher("user/signup", {
       method: "POST",
@@ -50,7 +65,10 @@ export default function AuthModal({ setOpenModal }) {
       body: JSON.stringify(data),
     });
     if (res.error) {
-      //todo handle error
+      setSignupError("passwordConfirmation", {
+        type: "manual",
+        message: "Failed to create your account. Please try again.",
+      });
     }
   };
 
@@ -91,12 +109,14 @@ export default function AuthModal({ setOpenModal }) {
               >
                 <TextInput
                   name="email"
+                  type="text"
                   errors={errors}
                   register={register}
                   placeholder="Email"
                 />
                 <TextInput
                   name="password"
+                  type="password"
                   errors={errors}
                   register={register}
                   placeholder="Password"
@@ -111,18 +131,21 @@ export default function AuthModal({ setOpenModal }) {
               >
                 <TextInput
                   name="email"
+                  type="text"
                   errors={signupErrors}
                   register={signupRegister}
                   placeholder="student@ntu.edu.sg"
                 />
                 <TextInput
                   name="password"
+                  type="password"
                   errors={signupErrors}
                   register={signupRegister}
                   placeholder="Password"
                 />
                 <TextInput
-                  name="passwordConfirm"
+                  name="passwordConfirmation"
+                  type="password"
                   errors={signupErrors}
                   register={signupRegister}
                   placeholder="Confirm password"

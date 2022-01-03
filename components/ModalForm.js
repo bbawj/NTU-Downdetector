@@ -18,7 +18,7 @@ export default function ModalForm({
       {children}
       <div className={styles.actions}>
         <button className={styles.button + " shadow-sm"} type="submit">
-          Login
+          Submit
         </button>
         <button
           className="btn btn-outline-secondary"

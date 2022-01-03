@@ -1,11 +1,10 @@
-import { getLoginSession } from "../../lib/auth";
-import { findUser } from "../../lib/user";
+import { getLoginSession } from "../../../lib/auth";
 
 //route to validate if user is logged in
 export default async function user(req, res) {
   try {
     const session = await getLoginSession(req);
-    const user = (session && (await findUser(session))) ?? null;
+    const user = session ?? null;
 
     res.status(200).json({ user });
   } catch (error) {
