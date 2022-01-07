@@ -89,6 +89,20 @@ function HallStatusPage() {
     mutate(null);
   };
 
+  const handleReport = async () => {
+    try {
+      await defaultFetcher(`reports/${hall_id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          timestamp: new Date().toISOString().slice(0, 19).replace("T", " "),
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     let times = [];
     let labels = [];
@@ -104,7 +118,7 @@ function HallStatusPage() {
 
     if (reports) {
       for (let i = 0; i < reports.length; i++) {
-        const cur = Date.parse(reports[i].timestamp);
+        const cur = Date.parse(reports[i].timestamp) + 8 * 60 * 60 * 1000;
         for (let j = 0; j < times.length - 1; j++) {
           if (cur >= times[j] && cur <= times[j + 1]) {
             grouped_data[j] += 1;
@@ -121,7 +135,7 @@ function HallStatusPage() {
 
   return (
     <div className="container mt-3">
-      <div className={styles.header + " row"}>
+      <div className={styles.header + " card row"}>
         <Image
           className={styles.logo}
           src={hall ? `/${hall[0].name}.png` : "data:,"}
@@ -129,8 +143,14 @@ function HallStatusPage() {
           height={240}
           layout="fixed"
         />
+        <h1 className="text-center">{hall && hall[0].name}</h1>
+        <button
+          className="btn btn-primary col-lg-4 col-sm-6 mx-auto my-3 shadow-sm"
+          onClick={handleReport}
+        >
+          I have a problem
+        </button>
       </div>
-      <h1 className="text-center">{hall && hall[0].name}</h1>
       <Line
         data={{
           labels: labels,
@@ -209,7 +229,11 @@ function HallStatusPage() {
                   Experiencing issues?
                 </span>
               </label>
-              <button disabled={!comment} type="submit">
+              <button
+                className="btn btn-primary ms-3 text-white"
+                disabled={!comment}
+                type="submit"
+              >
                 Post
               </button>
             </div>
@@ -226,6 +250,7 @@ function HallStatusPage() {
             />
           ))}
         <button
+          type="submit"
           disabled={isCommentLoading || isCommentEnd}
           onClick={() => setSize(size + 1)}
         >
