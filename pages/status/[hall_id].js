@@ -31,6 +31,7 @@ import { defaultFetcher } from "../../lib/utils";
 import Comment from "../../components/Comment";
 import Image from "next/image";
 import AuthModal from "../../components/AuthModal";
+import ReportModal from "../../components/ReportModal";
 
 function HallStatusPage() {
   const router = useRouter();
@@ -54,6 +55,7 @@ function HallStatusPage() {
   const [comment, setComment] = useState();
   const comments = commentData ? [].concat(...commentData) : [];
   const [openModal, setOpenModal] = useState(false);
+  const [reportModal, setReportModal] = useState(false);
   const [user, { mutate }] = useUser();
 
   const handleSubmit = async (e) => {
@@ -104,7 +106,7 @@ function HallStatusPage() {
 
     if (reports) {
       for (let i = 0; i < reports.length; i++) {
-        const cur = Date.parse(reports[i].timestamp);
+        const cur = Date.parse(reports[i].timestamp) + 8 * 60 * 60 * 1000;
         for (let j = 0; j < times.length - 1; j++) {
           if (cur >= times[j] && cur <= times[j + 1]) {
             grouped_data[j] += 1;
@@ -121,7 +123,7 @@ function HallStatusPage() {
 
   return (
     <div className="container mt-3">
-      <div className={styles.header + " row"}>
+      <div className={styles.header + " card row"}>
         <Image
           className={styles.logo}
           src={hall ? `/${hall[0].name}.png` : "data:,"}
@@ -129,44 +131,57 @@ function HallStatusPage() {
           height={240}
           layout="fixed"
         />
+        <h1 className="text-center">{hall && hall[0].name}</h1>
+        <button
+          type="button"
+          className="btn btn-primary col-lg-4 col-sm-6 col-10 mx-auto my-3 shadow-sm"
+          onClick={() => setReportModal(true)}
+        >
+          I have a problem
+        </button>
+        {reportModal && (
+          <ReportModal hall_id={hall_id} setIsOpen={setReportModal} />
+        )}
       </div>
-      <h1 className="text-center">{hall && hall[0].name}</h1>
-      <Line
-        data={{
-          labels: labels,
-          datasets: [
-            {
-              label: "Reports",
-              data: data,
-              borderColor: "#fa5145",
-              borderWidth: 2,
-            },
-          ],
-        }}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: false,
-          },
-          scales: {
-            x: {
-              grid: {
-                display: false,
+      <div className="card row mt-4 pt-5 px-3">
+        <h5>Reports in the last 24 hours</h5>
+        <Line
+          data={{
+            labels: labels,
+            datasets: [
+              {
+                label: "Reports",
+                data: data,
+                borderColor: "#fa5145",
+                borderWidth: 2,
               },
-              ticks: {
-                callback: (val, index) => {
-                  return index % 12 === 0 ? labels[val] : "";
+            ],
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: false,
+            },
+            scales: {
+              x: {
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  callback: (val, index) => {
+                    return index % 12 === 0 ? labels[val] : "";
+                  },
                 },
               },
+              y: {
+                beginAtZero: true,
+                grace: 5,
+              },
             },
-            y: {
-              beginAtZero: true,
-              grace: 5,
-            },
-          },
-        }}
-      />
-      <div className="container mt-5 p-4 card">
+          }}
+        />
+      </div>
+      <div className="card row mt-4 p-4">
         <div className="row justify-content-start">
           <h5 className="col-auto">Community comments</h5>
           <div className="col">
@@ -209,7 +224,11 @@ function HallStatusPage() {
                   Experiencing issues?
                 </span>
               </label>
-              <button disabled={!comment} type="submit">
+              <button
+                className="btn btn-primary ms-3 text-white"
+                disabled={!comment}
+                type="submit"
+              >
                 Post
               </button>
             </div>
@@ -226,6 +245,7 @@ function HallStatusPage() {
             />
           ))}
         <button
+          type="submit"
           disabled={isCommentLoading || isCommentEnd}
           onClick={() => setSize(size + 1)}
         >
