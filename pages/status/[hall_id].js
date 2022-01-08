@@ -31,6 +31,7 @@ import { defaultFetcher } from "../../lib/utils";
 import Comment from "../../components/Comment";
 import Image from "next/image";
 import AuthModal from "../../components/AuthModal";
+import ReportModal from "../../components/ReportModal";
 
 function HallStatusPage() {
   const router = useRouter();
@@ -54,6 +55,7 @@ function HallStatusPage() {
   const [comment, setComment] = useState();
   const comments = commentData ? [].concat(...commentData) : [];
   const [openModal, setOpenModal] = useState(false);
+  const [reportModal, setReportModal] = useState(false);
   const [user, { mutate }] = useUser();
 
   const handleSubmit = async (e) => {
@@ -87,20 +89,6 @@ function HallStatusPage() {
   const logout = async () => {
     await defaultFetcher("user/logout");
     mutate(null);
-  };
-
-  const handleReport = async () => {
-    try {
-      await defaultFetcher(`reports/${hall_id}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          timestamp: new Date().toISOString().slice(0, 19).replace("T", " "),
-        }),
-      });
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   useEffect(() => {
@@ -145,48 +133,55 @@ function HallStatusPage() {
         />
         <h1 className="text-center">{hall && hall[0].name}</h1>
         <button
-          className="btn btn-primary col-lg-4 col-sm-6 mx-auto my-3 shadow-sm"
-          onClick={handleReport}
+          type="button"
+          className="btn btn-primary col-lg-4 col-sm-6 col-10 mx-auto my-3 shadow-sm"
+          onClick={() => setReportModal(true)}
         >
           I have a problem
         </button>
+        {reportModal && (
+          <ReportModal hall_id={hall_id} setIsOpen={setReportModal} />
+        )}
       </div>
-      <Line
-        data={{
-          labels: labels,
-          datasets: [
-            {
-              label: "Reports",
-              data: data,
-              borderColor: "#fa5145",
-              borderWidth: 2,
-            },
-          ],
-        }}
-        options={{
-          responsive: true,
-          plugins: {
-            legend: false,
-          },
-          scales: {
-            x: {
-              grid: {
-                display: false,
+      <div className="card row mt-4 pt-5 px-3">
+        <h5>Reports in the last 24 hours</h5>
+        <Line
+          data={{
+            labels: labels,
+            datasets: [
+              {
+                label: "Reports",
+                data: data,
+                borderColor: "#fa5145",
+                borderWidth: 2,
               },
-              ticks: {
-                callback: (val, index) => {
-                  return index % 12 === 0 ? labels[val] : "";
+            ],
+          }}
+          options={{
+            responsive: true,
+            plugins: {
+              legend: false,
+            },
+            scales: {
+              x: {
+                grid: {
+                  display: false,
+                },
+                ticks: {
+                  callback: (val, index) => {
+                    return index % 12 === 0 ? labels[val] : "";
+                  },
                 },
               },
+              y: {
+                beginAtZero: true,
+                grace: 5,
+              },
             },
-            y: {
-              beginAtZero: true,
-              grace: 5,
-            },
-          },
-        }}
-      />
-      <div className="container mt-5 p-4 card">
+          }}
+        />
+      </div>
+      <div className="card row mt-4 p-4">
         <div className="row justify-content-start">
           <h5 className="col-auto">Community comments</h5>
           <div className="col">

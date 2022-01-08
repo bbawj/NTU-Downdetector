@@ -1,0 +1,25 @@
+.clickable {
+  text-align: center;
+  padding: 2rem;
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+}
+
+.clickable:hover {
+  background-color: var(--bg);
+  border-radius: 10px;
+  z-index: 2;
+  transform: scale(1.1);
+  font-weight: bold;
+}
+
+.close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}
+
+.close:hover {
+  transform: scale(1.1);
+}

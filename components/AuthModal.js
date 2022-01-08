@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "../styles/AuthModal.module.css";
-import ClientOnlyPortal from "./ClientOnlyPortal";
 import ModalForm from "./ModalForm";
 import TextInput from "./TextInput";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { defaultFetcher } from "../lib/utils";
+import Modal from "./Modal";
 
 const loginSchema = yup.object({
   email: yup.string().email().required("Please enter your email"),
@@ -80,88 +80,85 @@ export default function AuthModal({ mutate, setOpenModal }) {
   };
 
   return (
-    <ClientOnlyPortal selector="#modal">
-      <div className={styles.overlay}></div>
-      <div className={styles.modal}>
-        <div className="card">
-          <div className="card-body px-5">
-            <div className={styles.tabs}>
-              <div
-                onClick={() => setActiveTab(0)}
-                className={activeTab === 0 ? styles.active : ""}
-              >
-                Login
-              </div>
-              <div
-                onClick={() => setActiveTab(1)}
-                className={"ml-4 " + (activeTab === 1 ? styles.active : "")}
-              >
-                Signup
-              </div>
-              <div
-                className={
-                  styles.indicator +
-                  " " +
-                  (activeTab === 0 ? null : styles.indicatorRight)
-                }
-              ></div>
+    <Modal>
+      <div className="card">
+        <div className="card-body px-5">
+          <div className={styles.tabs}>
+            <div
+              onClick={() => setActiveTab(0)}
+              className={activeTab === 0 ? styles.active : ""}
+            >
+              Login
             </div>
-            <div className={styles.tabBody}>
-              <ModalForm
-                index={0}
-                handleSubmit={handleSubmit}
-                onSubmit={onSubmit}
-                activeTab={activeTab}
-                setOpenModal={setOpenModal}
-              >
-                <TextInput
-                  name="email"
-                  type="text"
-                  errors={errors}
-                  register={register}
-                  placeholder="Email"
-                />
-                <TextInput
-                  name="password"
-                  type="password"
-                  errors={errors}
-                  register={register}
-                  placeholder="Password"
-                />
-              </ModalForm>
-              <ModalForm
-                index={1}
-                handleSubmit={handleSignupSubmit}
-                onSubmit={onSignupSubmit}
-                activeTab={activeTab}
-                setOpenModal={setOpenModal}
-              >
-                <TextInput
-                  name="email"
-                  type="text"
-                  errors={signupErrors}
-                  register={signupRegister}
-                  placeholder="student@ntu.edu.sg"
-                />
-                <TextInput
-                  name="password"
-                  type="password"
-                  errors={signupErrors}
-                  register={signupRegister}
-                  placeholder="Password"
-                />
-                <TextInput
-                  name="passwordConfirmation"
-                  type="password"
-                  errors={signupErrors}
-                  register={signupRegister}
-                  placeholder="Confirm password"
-                />
-              </ModalForm>
+            <div
+              onClick={() => setActiveTab(1)}
+              className={"ml-4 " + (activeTab === 1 ? styles.active : "")}
+            >
+              Signup
             </div>
+            <div
+              className={
+                styles.indicator +
+                " " +
+                (activeTab === 0 ? null : styles.indicatorRight)
+              }
+            ></div>
+          </div>
+          <div className={styles.tabBody}>
+            <ModalForm
+              index={0}
+              handleSubmit={handleSubmit}
+              onSubmit={onSubmit}
+              activeTab={activeTab}
+              setOpenModal={setOpenModal}
+            >
+              <TextInput
+                name="email"
+                type="text"
+                errors={errors}
+                register={register}
+                placeholder="Email"
+              />
+              <TextInput
+                name="password"
+                type="password"
+                errors={errors}
+                register={register}
+                placeholder="Password"
+              />
+            </ModalForm>
+            <ModalForm
+              index={1}
+              handleSubmit={handleSignupSubmit}
+              onSubmit={onSignupSubmit}
+              activeTab={activeTab}
+              setOpenModal={setOpenModal}
+            >
+              <TextInput
+                name="email"
+                type="text"
+                errors={signupErrors}
+                register={signupRegister}
+                placeholder="student@ntu.edu.sg"
+              />
+              <TextInput
+                name="password"
+                type="password"
+                errors={signupErrors}
+                register={signupRegister}
+                placeholder="Password"
+              />
+              <TextInput
+                name="passwordConfirmation"
+                type="password"
+                errors={signupErrors}
+                register={signupRegister}
+                placeholder="Confirm password"
+              />
+            </ModalForm>
           </div>
         </div>
       </div>
-    </ClientOnlyPortal>
+    </Modal>
   );
 }
