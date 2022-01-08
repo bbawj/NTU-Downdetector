@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "../styles/AuthModal.module.css";
 import ModalForm from "./ModalForm";
 import TextInput from "./TextInput";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { defaultFetcher } from "../lib/utils";
+import { defaultFetcher, useOutsideAlerter } from "../lib/utils";
 import Modal from "./Modal";
 
 const loginSchema = yup.object({
@@ -29,6 +29,8 @@ const signupSchema = yup.object({
 
 export default function AuthModal({ mutate, setOpenModal }) {
   const [activeTab, setActiveTab] = useState(0);
+  const modalRef = useRef(null);
+  useOutsideAlerter(modalRef, setOpenModal);
   const {
     register,
     handleSubmit,
@@ -81,7 +83,7 @@ export default function AuthModal({ mutate, setOpenModal }) {
 
   return (
     <Modal>
-      <div className="card">
+      <div ref={modalRef} className="card">
         <div className="card-body px-5">
           <div className={styles.tabs}>
             <div

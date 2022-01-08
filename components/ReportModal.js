@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import { defaultFetcher, useOutsideAlerter } from "../lib/utils";
 import Modal from "./Modal";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdSignalWifiConnectedNoInternet1 } from "react-icons/md";
+import { ImPrinter } from "react-icons/im";
 import styles from "../styles/ReportModal.module.css";
 
 export default function ReportModal({ hall_id, setIsOpen }) {
@@ -30,7 +31,7 @@ export default function ReportModal({ hall_id, setIsOpen }) {
         <div className="card-body position-relative">
           <MdClose className={styles.close} onClick={() => setIsOpen(false)} />
           {reportSuccess ? (
-            <h4 className="card-title">
+            <h4 className="card-title text-center p-3">
               Your report has been successfully logged!
             </h4>
           ) : (
@@ -41,10 +42,14 @@ export default function ReportModal({ hall_id, setIsOpen }) {
                   className={styles.clickable + " col"}
                   onClick={handleReport}
                 >
-                  Internet
+                  <MdSignalWifiConnectedNoInternet1 size="2em" />
+                  <p className="m-0">Internet</p>
                 </div>
                 <div className="vr p-0"></div>
-                <div className={styles.clickable + " col"}>Printer</div>
+                <div className={styles.clickable + " col"}>
+                  <ImPrinter size="2em" />
+                  <p className="p-0">Printer</p>
+                </div>
               </div>
             </div>
           )}
