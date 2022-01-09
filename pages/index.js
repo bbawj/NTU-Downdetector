@@ -71,8 +71,8 @@ export default function Home(props) {
           content="Nanyang Technological University, NTU, downdetector"
         />
       </Head>
-      <div className={styles.container}>
-        <div className={styles.header}>
+      <div className="container-fluid p-0">
+        <div className={styles.header + " container"}>
           <h1 className={styles.header_text}>
             NTU <span>Down</span>detector
           </h1>

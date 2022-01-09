@@ -1,7 +1,6 @@
 import { Chart as ChartJS, Filler } from "chart.js";
 import React, { useEffect, useRef, useState } from "react";
 import { Line } from "react-chartjs-2";
-import styles from "../styles/Hero.module.css";
 
 ChartJS.register(Filler);
 
@@ -60,7 +59,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <div className={styles.herobox}>
+    <div className="container-fluid p-0">
       <Line
         redraw
         ref={chartRef}
