@@ -16,9 +16,9 @@ const loginSchema = yup.object({
 const signupSchema = yup.object({
   email: yup
     .string()
-    .matches(/(@e\.ntu.edu\.sg)$/, {
+    .matches(/(ntu\.edu\.sg)$/, {
       excludeEmptyString: true,
-      message: "Only NTU email is allowed",
+      message: "Only NTU registered emails are allowed",
     })
     .required("Email must not be empty"), //ntu domain exists at the endof string
   password: yup.string().required("Password cannot be empty."),
