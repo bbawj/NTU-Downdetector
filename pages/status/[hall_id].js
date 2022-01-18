@@ -57,12 +57,11 @@ function HallStatusPage() {
   const [openModal, setOpenModal] = useState(false);
   const [reportModal, setReportModal] = useState(false);
   const [user, { mutate }] = useUser();
-
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
       const newComment = {
-        user_id: 1,
+        user_id: user.id,
         hall_id: hall_id,
         text: comment,
         posted_at: new Date().toISOString().slice(0, 19).replace("T", " "),
@@ -74,7 +73,6 @@ function HallStatusPage() {
       });
       commentMutate([...commentData, { ...newComment, id: res.insertId }]);
       setComment("");
-      //todo: add checks to ensure user is authenticated
     } catch (error) {
       //todo: add error handling for failed post request
       console.error(error.message);
@@ -221,12 +219,14 @@ function HallStatusPage() {
               />
               <label htmlFor="comment" className={styles.commentLabel}>
                 <span className={styles.commentContent}>
-                  Experiencing issues?
+                  {user
+                    ? "Experiencing issues?"
+                    : "You must be logged in to comment."}
                 </span>
               </label>
               <button
                 className="btn btn-primary ms-3 text-white"
-                disabled={!comment}
+                disabled={!comment || !user}
                 type="submit"
               >
                 Post
