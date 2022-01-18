@@ -20,6 +20,7 @@
     "nodemailer": "^6.7.2",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0",
+    "planetscale-node": "^0.3.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.1.0",
     "react-chartjs-2": "^4.0.0",
