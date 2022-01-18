@@ -12,7 +12,7 @@ create table report (
     hall_id int not null,
     timestamp datetime not null,
     primary key (id),
-    foreign key (hall_id) references hall(id)
+    key (hall_id)
 );
 
 create table user (
@@ -29,8 +29,8 @@ create table comment(
     text text not null,
     posted_at datetime not null,
     primary key (id),
-    foreign key (user_id) references user(id),
-    foreign key (hall_id) references hall(id)
+    key (user_id),
+    key (hall_id) 
 );
 
 create index timestamp_idx ON report (timestamp);
