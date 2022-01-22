@@ -32,6 +32,7 @@ import Comment from "../../components/Comment";
 import Image from "next/image";
 import AuthModal from "../../components/AuthModal";
 import ReportModal from "../../components/ReportModal";
+import BeatLoader from "react-spinners/BeatLoader";
 
 function HallStatusPage() {
   const router = useRouter();
@@ -57,9 +58,12 @@ function HallStatusPage() {
   const [openModal, setOpenModal] = useState(false);
   const [reportModal, setReportModal] = useState(false);
   const [user, { mutate }] = useUser();
+  const [postCommentLoading, setPostCommentLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setPostCommentLoading(true);
       const newComment = {
         user_id: user.id,
         hall_id: hall_id,
@@ -71,9 +75,14 @@ function HallStatusPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newComment),
       });
-      commentMutate([...commentData, { ...newComment, id: res.insertId }]);
+      commentMutate([
+        ...commentData,
+        { ...newComment, id: res.insertId, email: user.email },
+      ]);
+      setPostCommentLoading(false);
       setComment("");
     } catch (error) {
+      setPostCommentLoading(false);
       //todo: add error handling for failed post request
       console.error(error.message);
       alert("Failed to post your comment. Please try again.");
@@ -224,13 +233,19 @@ function HallStatusPage() {
                     : "You must be logged in to comment."}
                 </span>
               </label>
-              <button
-                className="btn btn-primary ms-3 text-white"
-                disabled={!comment || !user}
-                type="submit"
-              >
-                Post
-              </button>
+              {postCommentLoading ? (
+                <div className="ms-3">
+                  <BeatLoader loading={postCommentLoading} />
+                </div>
+              ) : (
+                <button
+                  className="btn btn-primary ms-3 text-white"
+                  disabled={!comment || !user}
+                  type="submit"
+                >
+                  Post
+                </button>
+              )}
             </div>
           </form>
         </div>

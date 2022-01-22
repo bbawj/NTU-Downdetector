@@ -29,6 +29,7 @@ const signupSchema = yup.object({
 
 export default function AuthModal({ mutate, setOpenModal }) {
   const [activeTab, setActiveTab] = useState(0);
+  const [loading, setLoading] = useState(false);
   const modalRef = useRef(null);
   useOutsideAlerter(modalRef, setOpenModal);
   const {
@@ -47,11 +48,13 @@ export default function AuthModal({ mutate, setOpenModal }) {
   } = useForm({ resolver: yupResolver(signupSchema) });
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const res = await defaultFetcher("user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    setLoading(false);
     if (res.error) {
       setError("password", {
         type: "manual",
@@ -64,11 +67,13 @@ export default function AuthModal({ mutate, setOpenModal }) {
   };
 
   const onSignupSubmit = async (data) => {
+    setLoading(true);
     const res = await defaultFetcher("user/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    setLoading(false);
     if (res.error) {
       setSignupError("passwordConfirmation", {
         type: "manual",
@@ -113,6 +118,7 @@ export default function AuthModal({ mutate, setOpenModal }) {
               onSubmit={onSubmit}
               activeTab={activeTab}
               setOpenModal={setOpenModal}
+              loading={loading}
             >
               <TextInput
                 name="email"
@@ -135,6 +141,7 @@ export default function AuthModal({ mutate, setOpenModal }) {
               onSubmit={onSignupSubmit}
               activeTab={activeTab}
               setOpenModal={setOpenModal}
+              loading={loading}
             >
               <TextInput
                 name="email"
