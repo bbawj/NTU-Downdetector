@@ -4,14 +4,17 @@ import Modal from "./Modal";
 import { MdClose, MdSignalWifiConnectedNoInternet1 } from "react-icons/md";
 import { ImPrinter } from "react-icons/im";
 import styles from "../styles/ReportModal.module.css";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function ReportModal({ hall_id, setIsOpen }) {
   const modalRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const [reportSuccess, setReportSuccess] = useState(false);
 
   useOutsideAlerter(modalRef, setIsOpen);
   const handleReport = async () => {
     try {
+      setLoading(true);
       await defaultFetcher(`reports/${hall_id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -19,6 +22,7 @@ export default function ReportModal({ hall_id, setIsOpen }) {
           timestamp: new Date().toISOString().slice(0, 19).replace("T", " "),
         }),
       });
+      setLoading(false);
       setReportSuccess(true);
     } catch (error) {
       console.error(error);
@@ -34,6 +38,10 @@ export default function ReportModal({ hall_id, setIsOpen }) {
             <h4 className="card-title text-center p-3">
               Your report has been successfully logged!
             </h4>
+          ) : loading ? (
+            <div className="text-center">
+              <ClipLoader loading={loading} />
+            </div>
           ) : (
             <div>
               <h4 className="card-title text-center">What&apos;s down?</h4>

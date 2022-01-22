@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "../styles/ModalForm.module.css";
+import BeatLoader from "react-spinners/BeatLoader";
+
 export default function ModalForm({
   children,
   index,
@@ -7,6 +9,7 @@ export default function ModalForm({
   onSubmit,
   activeTab,
   setOpenModal,
+  loading,
 }) {
   return (
     <form
@@ -17,9 +20,17 @@ export default function ModalForm({
     >
       {children}
       <div className={styles.actions}>
-        <button className="btn btn-primary text-white" type="submit">
-          Submit
-        </button>
+        {loading ? (
+          <BeatLoader loading={loading} />
+        ) : (
+          <button
+            className="btn btn-primary text-white"
+            disabled={loading}
+            type="submit"
+          >
+            Submit
+          </button>
+        )}
         <button
           className="btn btn-outline-secondary"
           onClick={() => setOpenModal(false)}
